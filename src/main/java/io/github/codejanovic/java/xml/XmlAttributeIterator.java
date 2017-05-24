@@ -4,6 +4,7 @@ import org.dom4j.Attribute;
 import org.dom4j.Element;
 
 import java.util.Iterator;
+import java.util.List;
 
 public interface XmlAttributeIterator extends Iterator<XmlAttribute> {
 
@@ -12,6 +13,10 @@ public interface XmlAttributeIterator extends Iterator<XmlAttribute> {
 
         public Dom4J(final Element element) {
             this.dom4jIterator = element.attributeIterator();
+        }
+
+        public Dom4J(List list) {
+            this.dom4jIterator = list.iterator();
         }
 
         @Override

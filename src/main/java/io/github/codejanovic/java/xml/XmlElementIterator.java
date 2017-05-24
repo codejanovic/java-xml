@@ -4,6 +4,7 @@ package io.github.codejanovic.java.xml;
 import org.dom4j.Element;
 
 import java.util.Iterator;
+import java.util.List;
 
 public interface XmlElementIterator extends Iterator<XmlElement> {
 
@@ -12,6 +13,10 @@ public interface XmlElementIterator extends Iterator<XmlElement> {
 
         public Dom4j(final Element element) {
             this.dom4jIterator = element.elementIterator();
+        }
+
+        public Dom4j(List list) {
+            this.dom4jIterator = list.iterator();
         }
 
         @Override
