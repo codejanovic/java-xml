@@ -1,11 +1,8 @@
 package io.github.codejanovic.java.xml;
 
-import com.sun.xml.internal.bind.annotation.XmlIsSet;
-import org.dom4j.DocumentException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xembly.Directives;
-import org.xembly.ImpossibleModificationException;
 import org.xembly.Xembler;
 
 import static io.github.codejanovic.java.shortcuts.Shortcuts.f;
