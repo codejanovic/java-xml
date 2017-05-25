@@ -1,5 +1,8 @@
 package io.github.codejanovic.java.xml;
 
+import com.sun.xml.internal.bind.annotation.XmlIsSet;
+import org.dom4j.DocumentException;
+import org.junit.Before;
 import org.junit.Test;
 import org.xembly.Directives;
 import org.xembly.ImpossibleModificationException;
@@ -11,18 +14,14 @@ import static org.assertj.core.groups.Tuple.tuple;
 
 public abstract class XmlTestcases {
 
-    protected final Xml xml;
+    private Xml xml;
 
-    protected XmlTestcases() {
-        try {
-            this.xml = provideXml(testXml());
-        } catch (ImpossibleModificationException e) {
-            throw new IllegalArgumentException(e);
-        }
+    protected abstract Xml provideXml(Xembler xembler) throws Exception;
+
+    @Before
+    public void before() throws Exception {
+        this.xml = provideXml(testXml());
     }
-
-    protected abstract Xml provideXml(Xembler xembler) throws ImpossibleModificationException;
-
 
     @Test
     public void testThatItWorks() throws Exception {

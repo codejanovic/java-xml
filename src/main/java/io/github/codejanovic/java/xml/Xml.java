@@ -22,21 +22,13 @@ public interface Xml {
     final class Dom4J implements Xml {
         private final Document document;
 
-        public Dom4J(final File file) {
-            try {
-                this.document = new SAXReader().read(file);
-            } catch (DocumentException e) {
-                throw new IllegalArgumentException("unable to load xml document." + e);
-            }
+        public Dom4J(final File file) throws DocumentException {
+            this.document = new SAXReader().read(file);
         }
 
-        public Dom4J(final InputStream stream) {
-            try {
-                this.document = new SAXReader().read(stream);
-            } catch (DocumentException e) {
-                throw new IllegalArgumentException(f("unable to load xml document: %s", stream) + e);
-            }
-        }
+        public Dom4J(final InputStream stream) throws DocumentException {
+            this.document = new SAXReader().read(stream);
+    }
 
         @Override
         public XmlElement root() {
