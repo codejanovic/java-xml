@@ -35,9 +35,9 @@ public final class Dom4JXml implements Xml {
     }
 
     @Override
-    public Iterator<XmlElement> findElements(String xpath) {
+    public StreamIterable<XmlElement> findElements(String xpath) {
         final List result = document.selectNodes(xpath);
-        return new Dom4jXmlElementIterator(result);
+        return () -> new Dom4jXmlElementIterator(result);
     }
 
     @Override
@@ -47,9 +47,9 @@ public final class Dom4JXml implements Xml {
     }
 
     @Override
-    public Iterator<XmlAttribute> findAttributes(String xpath) {
+    public StreamIterable<XmlAttribute> findAttributes(String xpath) {
         final List result = document.selectNodes(xpath);
-        return new Dom4JXmlAttributeIterator(result);
+        return () -> new Dom4JXmlAttributeIterator(result);
     }
 
     @Override
