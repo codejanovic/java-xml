@@ -30,6 +30,18 @@ public abstract class XmlTestcases {
     }
 
     @Test
+    public void testRecursiveElementsIterator() throws Exception {
+        assertThat(xml.root().recursive().iterator())
+                .hasSize(5)
+                .extracting(XmlElement::name)
+                .containsExactly("root", "lets", "test", "that", "that");
+        assertThat(xml.root().recursive().stream())
+                .hasSize(5)
+                .extracting(XmlElement::name)
+                .containsExactly("root", "lets", "test", "that", "that");
+    }
+
+    @Test
     public void testFindElement() {
         assertThat(xml.findElement("//root/lets/test/that"))
                 .isPresent()
