@@ -1,23 +1,22 @@
 package io.github.codejanovic.java.xml;
 
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
+import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 import static io.github.codejanovic.java.shortcuts.Shortcuts.f;
 
 public interface Xml {
     XmlElement root();
 
-    XmlElement findElement(String xpath);
+    Optional<XmlElement> findElement(String xpath);
     Iterator<XmlElement> findElements(String xpath);
-    XmlAttribute findAttribute(String xpath);
+    Optional<XmlAttribute> findAttribute(String xpath);
     Iterator<XmlAttribute> findAttributes(String xpath);
 
     final class Dom4J implements Xml {
@@ -45,23 +44,27 @@ public interface Xml {
         }
 
         @Override
-        public XmlElement findElement(String xpath) {
-            return new XmlElement.Dom4J((Element) document.selectSingleNode(xpath));
+        public Optional<XmlElement> findElement(String xpath) {
+            final Node result = document.selectSingleNode(xpath);
+            return result == null? Optional.empty(): Optional.of(new XmlElement.Dom4J((Element) result));
         }
 
         @Override
         public Iterator<XmlElement> findElements(String xpath) {
-            return new XmlElementIterator.Dom4j(document.selectNodes(xpath));
+            final List result = document.selectNodes(xpath);
+            return new XmlElementIterator.Dom4j(result);
         }
 
         @Override
-        public XmlAttribute findAttribute(String xpath) {
-            return new XmlAttribute.Dom4j((Attribute) document.selectSingleNode(xpath));
+        public Optional<XmlAttribute> findAttribute(String xpath) {
+            final Node result = document.selectSingleNode(xpath);
+            return result == null? Optional.empty(): Optional.of(new XmlAttribute.Dom4j((Attribute) result));
         }
 
         @Override
         public Iterator<XmlAttribute> findAttributes(String xpath) {
-            return new XmlAttributeIterator.Dom4J(document.selectNodes(xpath));
+            final List result = document.selectNodes(xpath);
+            return new XmlAttributeIterator.Dom4J(result);
         }
 
         @Override
