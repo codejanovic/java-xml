@@ -75,6 +75,11 @@
             <version>2.0.0</version>
         </dependency>
         <dependency>
+            <groupId>org.jusecase</groupId>
+            <artifactId>builders</artifactId>
+            <version>0.3.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.jcabi.incubator</groupId>
             <artifactId>xembly</artifactId>
             <version>0.22</version>

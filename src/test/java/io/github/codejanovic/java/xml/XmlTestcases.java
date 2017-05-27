@@ -5,9 +5,14 @@ import org.junit.Test;
 import org.xembly.Directives;
 import org.xembly.Xembler;
 
+import java.util.Collection;
+
 import static io.github.codejanovic.java.shortcuts.Shortcuts.f;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
+import static org.jusecase.Builders.a;
+import static org.jusecase.Builders.list;
+import static org.jusecase.Builders.of;
 
 public abstract class XmlTestcases {
 
@@ -28,14 +33,50 @@ public abstract class XmlTestcases {
 
     @Test
     public void testRecursiveElementsIterator() throws Exception {
-        assertThat(xml.root().recursive().iterator())
+        assertThat(new StreamIterable.Decorating<>(xml.root().recursive(), XmlElement.IgnoreWhitespaces::new).iterator())
                 .hasSize(5)
-                .extracting(XmlElement::name)
-                .containsExactly("root", "lets", "test", "that", "that");
-        assertThat(xml.root().recursive().stream())
+                .containsExactly(new XmlElement.Fake()
+                                .withName("root")
+                                .withAttributes(
+                                        new StreamIterable.Fake<>(a(list(of(
+                                                new XmlAttribute.Fake()
+                                                        .withName("of")
+                                                        .withValue("java-xml"),
+                                                new XmlAttribute.Fake()
+                                                        .withName("version").
+                                                        withValue("initial")))))),
+                        new XmlElement.Fake().withName("lets"),
+                        new XmlElement.Fake().withName("test"),
+                        new XmlElement.Fake()
+                                .withName("that")
+                                .withValue("all childs are complete")
+                                .withAttributes(
+                                        new StreamIterable.Fake<>(a(list(of(new XmlAttribute.Fake()
+                                                .withName("it")
+                                                .withValue("works")))))),
+                        new XmlElement.Fake().withName("that").withValue("it works"));
+        assertThat(new StreamIterable.Decorating<>(xml.root().recursive(), XmlElement.IgnoreWhitespaces::new).stream())
                 .hasSize(5)
-                .extracting(XmlElement::name)
-                .containsExactly("root", "lets", "test", "that", "that");
+                .containsExactly(new XmlElement.Fake()
+                                .withName("root")
+                                .withAttributes(
+                                        new StreamIterable.Fake<>(a(list(of(
+                                                new XmlAttribute.Fake()
+                                                        .withName("of")
+                                                        .withValue("java-xml"),
+                                                new XmlAttribute.Fake()
+                                                        .withName("version").
+                                                        withValue("initial")))))),
+                        new XmlElement.Fake().withName("lets"),
+                        new XmlElement.Fake().withName("test"),
+                        new XmlElement.Fake()
+                                .withName("that")
+                                .withValue("all childs are complete")
+                                .withAttributes(
+                                        new StreamIterable.Fake<>(a(list(of(new XmlAttribute.Fake()
+                                                .withName("it")
+                                                .withValue("works")))))),
+                        new XmlElement.Fake().withName("that").withValue("it works"));
     }
 
     @Test
@@ -98,20 +139,19 @@ public abstract class XmlTestcases {
 
     /**
      * <root of="java-xml" version="initial">
-     *     <lets>
-     *         <test>
-     *             <that it="works">
-     *                  all childs are complete
-     *             </that>
-     *             <that it="works as well">
-     *                 it works
-     *             </that>
-     *         </test>
-     *     </lets>
+     * <lets>
+     * <test>
+     * <that it="works">
+     * all childs are complete
+     * </that>
+     * <that it="works as well">
+     * it works
+     * </that>
+     * </test>
+     * </lets>
      * </root>
-     *
      */
-    private Xembler testXml(){
+    private Xembler testXml() {
         return new Xembler(
                 new Directives()
                         .add("root")

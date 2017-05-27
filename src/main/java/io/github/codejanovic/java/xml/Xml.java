@@ -9,5 +9,4 @@ public interface Xml {
     StreamIterable<XmlElement> findElements(String xpath);
     Optional<XmlAttribute> findAttribute(String xpath);
     StreamIterable<XmlAttribute> findAttributes(String xpath);
-
 }

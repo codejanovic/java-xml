@@ -5,7 +5,7 @@ import org.dom4j.Attribute;
 
 import static io.github.codejanovic.java.shortcuts.Shortcuts.f;
 
-public final class Dom4jXmlAttribute implements XmlAttribute {
+public final class Dom4jXmlAttribute extends XmlAttribute.Abstract {
     private final Attribute attribute;
 
     public Dom4jXmlAttribute(final Attribute attribute) {
@@ -20,10 +20,5 @@ public final class Dom4jXmlAttribute implements XmlAttribute {
     @Override
     public String value() {
         return attribute.getStringValue();
-    }
-
-    @Override
-    public String toString() {
-        return f("%s=\"%s\"", name(), value());
     }
 }
