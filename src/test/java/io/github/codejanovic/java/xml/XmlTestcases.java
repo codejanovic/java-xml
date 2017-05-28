@@ -58,6 +58,13 @@ public abstract class XmlTestcases {
     }
 
     @Test
+    public void testElementsIterator() throws Exception {
+        assertThat(decorate(xml.root().elements(), XmlElement.Features::ignoreWhitespaces).iterator())
+                .hasSize(1)
+                .containsExactly(an(element("lets")));
+    }
+
+    @Test
     public void testFindElement() {
         assertThat(xml.findElement("//root/lets/test/that"))
                 .isPresent()

@@ -5,7 +5,7 @@ import org.xembly.Xembler;
 
 import java.io.ByteArrayInputStream;
 
-public class Dom4J extends XmlTestcases {
+public class Dom4JTest extends XmlTestcases {
     @Override
     protected Xml provideXml(Xembler xembler) throws Exception {
         return new Dom4JXml(new ByteArrayInputStream(xembler.xml().getBytes()));
