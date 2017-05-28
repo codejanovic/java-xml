@@ -10,6 +10,15 @@ public interface XmlElement extends XmlAttribute {
     StreamIterable<XmlElement> elements();
     StreamIterable<XmlElement> recursive();
 
+    final class Features {
+        private Features() {
+        }
+
+        public static XmlElement ignoreWhitespaces(final XmlElement decorate) {
+            return new IgnoreWhitespaces(decorate);
+        }
+    }
+
     abstract class Abstract implements XmlElement {
 
         @Override
@@ -42,63 +51,6 @@ public interface XmlElement extends XmlAttribute {
         @Override
         public String toString() {
             return f("element [name: %s | value: %s], attributes [%s]", name(), value(), attributes().stream().map(a -> f("attribute [name: %s | value: %s", a.name(), a.value())).collect(Collectors.joining(", ")));
-        }
-    }
-
-    final class Fake extends Abstract {
-        private final String name;
-        private final String value;
-        private final StreamIterable<XmlAttribute> attributes;
-
-        public Fake(String name, String value, StreamIterable<XmlAttribute> attributes) {
-            this.name = name;
-            this.value = value;
-            this.attributes = attributes;
-        }
-
-        public Fake(String name, String value) {
-            this(name, value, StreamIterable.Empty.one());
-        }
-
-        public Fake() {
-            this("", "", StreamIterable.Empty.one());
-        }
-
-        public XmlElement.Fake withName(final String name) {
-            return new XmlElement.Fake(name, value, attributes);
-        }
-
-        public XmlElement.Fake withValue(final String value) {
-            return new XmlElement.Fake(name, value, attributes);
-        }
-
-        public XmlElement.Fake withAttributes(final StreamIterable<XmlAttribute> attributes) {
-            return new XmlElement.Fake(name, value, attributes);
-        }
-
-        @Override
-        public String name() {
-            return name;
-        }
-
-        @Override
-        public String value() {
-            return value;
-        }
-
-        @Override
-        public StreamIterable<XmlAttribute> attributes() {
-            return attributes;
-        }
-
-        @Override
-        public StreamIterable<XmlElement> elements() {
-            return StreamIterable.Empty.one();
-        }
-
-        @Override
-        public StreamIterable<XmlElement> recursive() {
-            return StreamIterable.Empty.one();
         }
     }
 

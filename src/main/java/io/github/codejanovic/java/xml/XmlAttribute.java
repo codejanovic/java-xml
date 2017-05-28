@@ -25,35 +25,4 @@ public interface XmlAttribute {
         }
     }
 
-    final class Fake extends Abstract {
-        private final String name;
-        private final String value;
-
-        public Fake(final String name, final String value) {
-            this.name = name;
-            this.value = value;
-        }
-
-        public Fake() {
-            this("", "");
-        }
-
-        public Fake withName(final String name) {
-            return new Fake(name, value);
-        }
-
-        public Fake withValue(final String value) {
-            return new Fake(name, value);
-        }
-
-        @Override
-        public String name() {
-            return name;
-        }
-
-        @Override
-        public String value() {
-            return value;
-        }
-    }
 }

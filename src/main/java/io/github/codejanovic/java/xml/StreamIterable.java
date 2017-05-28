@@ -13,6 +13,23 @@ public interface StreamIterable<T> extends Iterable<T> {
         return StreamSupport.stream(splitIterator, false);
     }
 
+    final class Features {
+        private Features() {
+        }
+
+        public static <T> StreamIterable<T> eager(final Collection<T> collection) {
+            return new Eager<>(collection);
+        }
+
+        public static <T> StreamIterable<T> decorate(final StreamIterable<T> decorate, final Factory1<T, T> with) {
+            return new Decorating<>(decorate, with);
+        }
+
+        public static <T> StreamIterable<T> empty() {
+            return Empty.one();
+        }
+    }
+
     final class Decorating<T> implements StreamIterable<T> {
         private final StreamIterable<T> decorated;
         private final Factory1<T, T> factory;
@@ -45,19 +62,11 @@ public interface StreamIterable<T> extends Iterable<T> {
         }
     }
 
-    final class Fake<T> implements StreamIterable<T> {
+    final class Eager<T> implements StreamIterable<T> {
         private final Collection<T> collection;
 
-        public Fake(final Collection<T> collection) {
+        public Eager(final Collection<T> collection) {
             this.collection = new ArrayList<>(collection);
-        }
-
-        public Fake() {
-            this(Collections.emptyList());
-        }
-
-        public Fake with(final Collection<T> collection) {
-            return new Fake<T>(collection);
         }
 
         @Override

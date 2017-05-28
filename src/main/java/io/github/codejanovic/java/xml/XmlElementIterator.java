@@ -7,10 +7,28 @@ import java.util.Stack;
 
 public interface XmlElementIterator extends Iterator<XmlElement> {
 
-    final class Childs implements XmlElementIterator {
+    final class Features {
+        private Features() {
+        }
+
+        public static XmlElementIterator flat(final XmlElement element) {
+            return new Flat(element);
+        }
+
+        public static XmlElementIterator single(final XmlElement element) {
+            return new Single(element);
+        }
+
+        public static XmlElementIterator recursive(final XmlElement element) {
+            return new Flat(element);
+        }
+
+    }
+
+    final class Flat implements XmlElementIterator {
         private final Iterator<XmlElement> iterator;
 
-        public Childs(final XmlElement element) {
+        public Flat(final XmlElement element) {
             this.iterator = element.elements().iterator();
         }
 
@@ -62,7 +80,7 @@ public interface XmlElementIterator extends Iterator<XmlElement> {
         @Override
         public XmlElement next() {
             final XmlElement next = iterators.peek().next();
-            this.iterators.add(new Childs(next));
+            this.iterators.add(new Flat(next));
             return next;
         }
     }
