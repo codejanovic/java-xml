@@ -20,7 +20,7 @@ public interface XmlElementIterator extends Iterator<XmlElement> {
         }
 
         public static XmlElementIterator recursive(final XmlElement element) {
-            return new Flat(element);
+            return new Recursive(element);
         }
 
     }
@@ -67,7 +67,7 @@ public interface XmlElementIterator extends Iterator<XmlElement> {
         private final Stack<XmlElementIterator> iterators = new Stack<>();
 
         public Recursive(final XmlElement start) {
-            this.iterators.add(new Single(start));
+            this.iterators.add(XmlElementIterator.Features.single(start));
         }
 
         @Override
@@ -80,7 +80,7 @@ public interface XmlElementIterator extends Iterator<XmlElement> {
         @Override
         public XmlElement next() {
             final XmlElement next = iterators.peek().next();
-            this.iterators.add(new Flat(next));
+            this.iterators.add(XmlElementIterator.Features.flat(next));
             return next;
         }
     }
